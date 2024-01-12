@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator and Scanner</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+    </head>
+<body>
+    <h1>QR Code Generator and Scanner</h1>
+    <div>
+        <label for="text">Enter </label>
+        <input type="text" id="text" placeholder="....">
+        <button id="generate">Generate QR Code</button>
+    </div>
+    <div>
+        <h2>Generated QR Code</h2>
+        <div id="qr-code"></div>
+    </div>
+    <div>
+    <script>
+         $(document).ready(function () {
+                $('#generate').click(function () {
+                    const text = $('#text').val();
+
+                    $.get(`/generateQR?text=${text}`, function (url) {
+                        // Update the content of the element with id 'qr-code' to display the generated QR code
+                        $('#qr-code').html(`<img src="${url}" alt="Generated QR Code">`);
+
+                        // Create a download button for the QR code image
+                        const downloadButton = document.createElement('button');
+                        downloadButton.textContent = 'Download QR Code';
+                        downloadButton.addEventListener('click', function () {
+                            // Trigger download when the button is clicked
+                            downloadQRCode(url);
+                        });
+
+                        // Append the download button to the page
+                        $('#qr-code').append(downloadButton);
+                    });
+                });
+
+                // Function to download the QR code image
+                function downloadQRCode(url) {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'qrcode.jpg';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+    </script>
+</body>
+
+</html>
