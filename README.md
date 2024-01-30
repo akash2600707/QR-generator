@@ -17,8 +17,7 @@ npm install
 
 Run the application:
 
-bash
-npm start
+node app.js
 
 Open your browser and navigate to http://localhost:3000 to access the QR code generator.
 
